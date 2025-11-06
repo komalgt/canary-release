@@ -12,11 +12,13 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t ${APP_NAME}:${IMAGE_TAG} ."
-            }
+stage('Build Docker Image') {
+    steps {
+        timeout(time: 20, unit: 'MINUTES') {  // increase from default 10 min if needed
+            sh "docker build -t $APP_NAME:$IMAGE_TAG ."
         }
+    }
+}
         stage('Push Docker Image') {
             steps {
                  sh "echo Deploy step here"
